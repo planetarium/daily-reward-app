@@ -11,6 +11,10 @@
   </head>
   <body>
     <div id="root"></div>
+    <script type="module">
+      import { Buffer } from "buffer";
+      window.Buffer = Buffer;
+    </script>  
     <script type="module" src="/src/main.tsx"></script>
     <script>
       if ("serviceWorker" in navigator) {
@@ -20,7 +24,7 @@
             console.log("Service worker registration succeeded:", registration);
           })
           .catch((err) => {
-            console.log("Service worker registration failed:", error);
+            console.log("Service worker registration failed:", err);
           });
       } else {
         console.log("Service workers are not supported.");

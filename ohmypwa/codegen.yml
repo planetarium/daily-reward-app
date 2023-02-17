@@ -1,0 +1,24 @@
+overwrite: true
+schema: ./schema.graphql
+documents: ./api.graphql
+config:
+  withHooks: true
+  withMutationFn: true
+  scalars:
+    Address: ../mappers#Address
+    ByteString: ../mappers#ByteStringHex
+    BigInt: ../mappers#BigInt
+generates:
+  src/generated/graphql.tsx:
+    plugins:
+      - typescript
+      - typescript-operations
+      - typescript-resolvers
+      - typescript-react-apollo
+    config:
+      reactApolloVersion: 3
+      withComponent: false
+      withHOC: false
+      scalars:
+        Long: number
+        TxId: string

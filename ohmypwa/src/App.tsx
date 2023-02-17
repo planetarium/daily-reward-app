@@ -1,33 +1,45 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import reactLogo from './assets/react.svg'
 import './App.css'
+import { encodeUnsignedTxWithCustomActions, type UnsignedTxWithCustomActions } from '@planetarium/tx';
+import { createAccount } from '@planetarium/account-raw';
+import { signTransaction, deriveAddress, Account } from '@planetarium/sign';
+import { encode } from "bencodex";
+import { ImportKeyPage } from './pages/ImportKeyPage';
+import { ApolloClient, InMemoryCache, ApolloProvider, gql } from '@apollo/client';
+import { DailyRewardPage } from './pages/DailyRewardPage';
+
+const client = new ApolloClient({
+  uri: 'https://9c-main-full-state.planetarium.dev/graphql',
+  cache: new InMemoryCache(),
+});
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [account, setAccount] = useState<Account | null>(null);
+  const [address, setAddress] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (account === null) {
+      return;
+    }
+
+    deriveAddress(account).then(setAddress);
+
+    return () => setAddress(null);
+  }, [account])
+
+  if (account === null) {
+    return <ImportKeyPage setAccount={setAccount}/>
+  }
+
+  if (address === null) {
+    return <p>Loading address...</p>
+  }
 
   return (
-    <div className="App">
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src="/vite.svg" className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://reactjs.org" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </div>
+    <ApolloProvider client={client}>
+      <DailyRewardPage account={account} address={address} />
+    </ApolloProvider>
   )
 }
 

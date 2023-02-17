@@ -1,0 +1,27 @@
+query LoadState($address: Address!) {
+  chainQuery {
+    blockQuery {
+      block(index: -1) {
+        index
+      }
+    }
+  }
+
+  transaction {
+    nextTxNonce(address: $address)
+  }
+
+  stateQuery {
+    agent(address: $address) {
+      avatarStates {
+        address
+        dailyRewardReceivedIndex
+        actionPoint
+      }
+    }
+  }
+}
+
+mutation StageTransaction($transaction: String!) {
+    stageTransaction(payload: $transaction)
+}
