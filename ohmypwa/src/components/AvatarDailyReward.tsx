@@ -14,7 +14,7 @@ interface AvatarDailyRewardProps {
 }
 
 async function makeDailyRewardTransaction(account: Account, nonce: bigint, avatarAddress: Uint8Array): Promise<string> {
-    return await signTransaction(
+    return signTransaction(
         encode(encodeUnsignedTxWithCustomActions({
             nonce,
             signer: Buffer.from((await deriveAddress(account)).substring(2), "hex"),
@@ -24,7 +24,7 @@ async function makeDailyRewardTransaction(account: Account, nonce: bigint, avata
                 {
                     type_id: "daily_reward6",
                     values: {
-                        id: Buffer.from("63c4180d1d914527a1dc4def13fe1fab", "hex"),
+                        id: Buffer.from("63c4180d1d914527a1dc4def13fe1fab", "hex"),  // Arbitrarily generated.
                         a: avatarAddress,
                     },
                 },

@@ -7,10 +7,10 @@ interface ImportKeyPageProps {
 }
 
 export const ImportKeyPage: React.FC<ImportKeyPageProps> = ({ setAccount }) => {
-    const selectRef = useRef<HTMLSelectElement | null | undefined>();
+    const selectRef: React.LegacyRef<HTMLSelectElement> = useRef(null);
     const [accountType, setAccountType] = useState<"raw" | "json" | "unknown">("unknown");
 
-    const inputRef = useRef<HTMLInputElement | null | undefined>();
+    const inputRef: React.LegacyRef<HTMLInputElement> = useRef(null);
     
     const onChange = (event: ChangeEvent<HTMLInputElement>) => {
         if (event.target.files) {
