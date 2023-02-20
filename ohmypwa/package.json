@@ -13,6 +13,7 @@
     "@planetarium/account-raw": "^0.0.3",
     "@planetarium/sign": "^0.0.12",
     "@planetarium/tx": "^0.48.0",
+    "@planetarium/account-web": "file:../sphere/packages/account-web",
     "bencodex": "^0.1.2",
     "buffer": "^6.0.3",
     "graphql": "^16.6.0",

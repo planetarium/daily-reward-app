@@ -1,5 +1,6 @@
 import React, { ChangeEvent, useRef, useState } from "react";
 import { createAccount } from "@planetarium/account-raw";
+import { getAccountFromV3 } from "@planetarium/account-web";
 import { Account } from "@planetarium/sign";
 
 interface ImportKeyPageProps {
@@ -12,21 +13,8 @@ export const ImportKeyPage: React.FC<ImportKeyPageProps> = ({ setAccount }) => {
     "unknown"
   );
 
+  const fileRef: React.LegacyRef<HTMLInputElement> = useRef(null);
   const inputRef: React.LegacyRef<HTMLInputElement> = useRef(null);
-
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const fileReader = new FileReader();
-      fileReader.onload = (e) => {
-        const result = e.target?.result;
-        if (typeof result === "string") {
-          // setFileContent(result);
-          // getAccountFromV3(result, "aaa").then(x => deriveAddress(x)).then(x => setAddress);
-        }
-      };
-      fileReader.readAsText(event.target.files[0], "UTF-8");
-    }
-  };
 
   if (accountType === "unknown") {
     return (
@@ -55,9 +43,30 @@ export const ImportKeyPage: React.FC<ImportKeyPageProps> = ({ setAccount }) => {
     );
   }
 
+  const onClick = () => {
+    const password = inputRef.current?.value;
+    const file = fileRef.current?.files?.item(0);
+
+    if (!password || !file) {
+      return;
+    }
+
+    const fileReader = new FileReader();
+    fileReader.onload = (e) => {
+      const result = e.target?.result;
+      console.log(result);
+      if (typeof result === "string") {
+        setAccount(getAccountFromV3(result, password));
+      }
+    };
+    fileReader.readAsText(file, "UTF-8");
+  };
+
   return (
     <div>
-      <input type="file" onChange={onChange} />
+      <input type="file" ref={fileRef} />
+      <input type="password" ref={inputRef} />
+      <button onClick={onClick}>Next</button>
     </div>
   );
 };
