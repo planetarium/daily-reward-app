@@ -23,5 +23,5 @@ query LoadState($address: Address!) {
 }
 
 mutation StageTransaction($transaction: String!) {
-    stageTransaction(payload: $transaction)
+  stageTransaction(payload: $transaction)
 }
