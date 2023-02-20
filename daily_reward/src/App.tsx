@@ -1,13 +1,6 @@
 import { useEffect, useState } from "react";
-import reactLogo from "./assets/react.svg";
 import "./App.css";
-import {
-  encodeUnsignedTxWithCustomActions,
-  type UnsignedTxWithCustomActions,
-} from "@planetarium/tx";
-import { createAccount } from "@planetarium/account-raw";
-import { signTransaction, deriveAddress, Account } from "@planetarium/sign";
-import { encode } from "bencodex";
+import { deriveAddress, Account } from "@planetarium/sign";
 import { ImportKeyPage } from "./pages/ImportKeyPage";
 import {
   ApolloClient,

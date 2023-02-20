@@ -1,5 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from "react";
-import { createAccount } from "@planetarium/account-raw";
+import React from "react";
 import { Account } from "@planetarium/sign";
 import { useLoadStateQuery } from "../generated/graphql";
 import { AvatarDailyReward } from "../components/AvatarDailyReward";

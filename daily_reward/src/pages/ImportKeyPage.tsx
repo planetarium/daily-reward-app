@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { createAccount } from "@planetarium/account-raw";
 import { getAccountFromV3 } from "@planetarium/account-web";
 import { Account } from "@planetarium/sign";
