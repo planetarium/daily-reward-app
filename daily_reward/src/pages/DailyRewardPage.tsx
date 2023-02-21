@@ -2,6 +2,7 @@ import React from "react";
 import { Account } from "@planetarium/sign";
 import { useLoadStateQuery } from "../generated/graphql";
 import { AvatarDailyReward } from "../components/AvatarDailyReward";
+import { AccountJsonSymbol } from "../exportable";
 
 interface DailyRewardPageProps {
   account: Account;
@@ -26,8 +27,25 @@ export const DailyRewardPage: React.FC<DailyRewardPageProps> = ({
   const tip = data.chainQuery.blockQuery.block.index;
   const nonce = data.transaction.nextTxNonce;
 
+  const exportButton = Object.hasOwn(account, AccountJsonSymbol) ? (
+    <a
+      href={
+        "data:data:attachment/text," +
+        encodeURI(
+          Object.getOwnPropertyDescriptor(account, AccountJsonSymbol)?.value
+        )
+      }
+      target="_blank"
+      download="key.json"
+      title="This account type is able to export."
+    >
+      Export Key
+    </a>
+  ) : null;
+
   return (
     <div>
+      {exportButton}
       <h3>Current tip</h3>
       <p>{tip}</p>
       <h3>Agent Address</h3>

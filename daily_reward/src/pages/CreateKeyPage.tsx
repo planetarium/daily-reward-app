@@ -2,6 +2,7 @@ import type { Account } from "@planetarium/sign";
 import { getAccountFromV3 } from "@planetarium/account-web";
 import React, { useRef, useState } from "react";
 import * as ethers from "ethers";
+import { AccountJsonSymbol } from "../exportable";
 
 interface CreateKeyPageProps {
   setAccount: (account: Account) => void;
@@ -15,7 +16,12 @@ export const CreateKeyPage: React.FC<CreateKeyPageProps> = ({ setAccount }) => {
     const password = passwordRef.current?.value || "";
     ethers.Wallet.createRandom()
       .encrypt(password)
-      .then((key) => setAccount(getAccountFromV3(key, password)))
+      .then((key) =>
+        setAccount({
+          ...getAccountFromV3(key, password),
+          [AccountJsonSymbol]: key,
+        })
+      )
       .catch((e) => {
         console.error(e);
         setCreating(false);

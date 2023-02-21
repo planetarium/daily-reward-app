@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { createAccount } from "@planetarium/account-raw";
 import { getAccountFromV3 } from "@planetarium/account-web";
 import { Account } from "@planetarium/sign";
+import { AccountJsonSymbol } from "../exportable";
 
 interface ImportKeyPageProps {
   setAccount: (account: Account) => void;
@@ -35,7 +36,12 @@ export const ImportKeyPage: React.FC<ImportKeyPageProps> = ({ setAccount }) => {
       <div>
         <input ref={inputRef} />
         <button
-          onClick={() => setAccount(createAccount(inputRef.current?.value))}
+          onClick={() =>
+            setAccount({
+              ...createAccount(inputRef.current?.value),
+              [AccountJsonSymbol]: inputRef.current?.value,
+            })
+          }
         >
           Next
         </button>
@@ -56,7 +62,10 @@ export const ImportKeyPage: React.FC<ImportKeyPageProps> = ({ setAccount }) => {
       const result = e.target?.result;
       console.log(result);
       if (typeof result === "string") {
-        setAccount(getAccountFromV3(result, password));
+        setAccount({
+          ...getAccountFromV3(result, password),
+          [AccountJsonSymbol]: result,
+        });
       }
     };
     fileReader.readAsText(file, "UTF-8");
