@@ -9,6 +9,7 @@ import {
   gql,
 } from "@apollo/client";
 import { DailyRewardPage } from "./pages/DailyRewardPage";
+import { IndexPage } from "./pages/IndexPage";
 
 const client = new ApolloClient({
   uri: "https://9c-main-full-state.planetarium.dev/graphql",
@@ -30,7 +31,7 @@ function App() {
   }, [account]);
 
   if (account === null) {
-    return <ImportKeyPage setAccount={setAccount} />;
+    return <IndexPage setAccount={setAccount} />;
   }
 
   if (address === null) {
