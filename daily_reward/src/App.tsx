@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 import { deriveAddress, Account } from "@planetarium/sign";
-import { ImportKeyPage } from "./pages/ImportKeyPage";
 import {
   ApolloClient,
   InMemoryCache,
